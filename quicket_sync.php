@@ -124,6 +124,14 @@ function convertToPost($event)
     $expiry = strtotime("+7 day", strtotime($event["endDate"]));
 
     $transformed_categories = array_unique(flattenArray(array_map('convertCategory', $event["categories"])));
+    $lat = $event["venue"]["latitude"];
+    $long = $event["venue"]["longitude"];
+    if(!preg_match('/^\-?\d+\.\d+$/', $lat)){
+      $lat = '0.0';
+    }
+    if(!preg_match('/^\-?\d+\.\d+$/', $long)){
+      $long = '0.0';
+    }
 
     $new_post = array(
         'post_title'        =>      $event["name"],
@@ -132,8 +140,8 @@ function convertToPost($event)
         'post_status'    => 'publish',
         'post_price'        =>     $combined_prices,
         'post_location'     =>     $event["locality"]["levelThree"],
-        'post_latitude'     =>     $event["venue"]["latitude"],
-        'post_longitude'    =>     $event["venue"]["longitude"],
+        'post_latitude'     =>     $lat,
+        'post_longitude'    =>     $long,
         'post_address'      =>     $combined_address,
         'post_expiration_date'      =>     $expiry,
         'tags_input'        =>     $date_tag,
