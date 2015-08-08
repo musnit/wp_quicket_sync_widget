@@ -1,0 +1,13 @@
+deets:
+
+//name (string)
+//description
+//combine prices to 1
+//post_address addressLine1 + addressLine2
+//post_location locality lvl3
+//latitute
+//longitude
+//date: startDate
+//image
+//expire: +week
+//categorys

@@ -1,0 +1,7 @@
+var asd = {}; $($('.dropdown-menu')[1].children).each(function(i,x){var num = x.children[0].href.slice(44); asd[num] = x.textContent.trim()}); asd
+
+Concerts-Theatre 154
+Festivals 134
+Lifestyle 132
+Nightlife 123
+Other 1

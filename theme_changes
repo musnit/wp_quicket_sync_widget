@@ -1,0 +1,46 @@
+Theme changes: The Happening: Single Post (single.php)
+
+First change:
+Old:
+					$attachments = get_children(array('post_parent' => $post->ID,
+							'post_status' => 'inherit',
+							'post_type' => 'attachment',
+							'post_mime_type' => 'image',
+							'order' => 'ASC',
+							'orderby' => 'menu_order ID'));	
+
+New:
+				if(get_post_meta($post->ID, 'quicket_thumbnail_url', true) ){
+					$attachments = array(
+					0 => array(
+						'url' => get_post_meta($post->ID, 'quicket_thumbnail_url', true),
+						'quicket' => true
+					   )					
+					);
+				}
+				else{
+					$attachments = get_children(array('post_parent' => $post->ID,
+							'post_status' => 'inherit',
+							'post_type' => 'attachment',
+							'post_mime_type' => 'image',
+							'order' => 'ASC',
+							'orderby' => 'menu_order ID'));	
+				}
+
+
+Second change:
+Old:
+								$full_img_url = wp_get_attachment_url($attachment->ID);
+								echo "<a href='" . bfi_thumb( "$full_img_url", $params ) . "'><img alt='image' src='" . bfi_thumb( $full_img_url, $params_small ) . "' data-big='" . $full_img_url . "' ></a>";
+
+New:
+							$full_img_url = "";
+							if(array_key_exists('quicket', $attachment)){
+								$full_img_url = $attachment["url"];
+								echo "<a href='" . $full_img_url . "'><img alt='image' src='" . $full_img_url . "' data-big='" . $full_img_url . "' ></a>";
+
+							}
+							else{
+								$full_img_url = wp_get_attachment_url($attachment->ID);
+								echo "<a href='" . bfi_thumb( "$full_img_url", $params ) . "'><img alt='image' src='" . bfi_thumb( $full_img_url, $params_small ) . "' data-big='" . $full_img_url . "' ></a>";
+							}
