@@ -55,7 +55,6 @@ function sync_from_quicket_callback() {
 	$parsed = json_decode($json, true);
 	$events = $parsed["results"];
 	$posts = array_map("convertToPost", $events);
-	$all_inserts = array();
 	deleteAllQuicketPosts();
 	$num_imported = 0;
 	foreach ($posts as &$post) {
@@ -69,14 +68,12 @@ function sync_from_quicket_callback() {
 		    update_post_meta( $id, 'quicket_thumbnail_url', $post["thumbnail_url"] );
 		    update_post_meta( $id, 'quicket_id', $post["quicket_id"] );
 
-	       	update_post_meta($id, '_expiration-date', $post["post_expiration_date"]);
-	       	$expiration_opts = array();
-			$expiration_opts['expireType'] = 'delete';
-			$expiration_opts['id'] = $id;
-	        update_post_meta($id, '_expiration-date-options', $expiration_opts);
-			update_post_meta($id, '_expiration-date-status','saved');
-
-			wp_publish_post($id);
+       	update_post_meta($id, '_expiration-date', $post["post_expiration_date"]);
+       	$expiration_opts = array();
+  			$expiration_opts['expireType'] = 'delete';
+  			$expiration_opts['id'] = $id;
+        update_post_meta($id, '_expiration-date-options', $expiration_opts);
+  			update_post_meta($id, '_expiration-date-status','saved');
 
 		    $num_imported = $num_imported + 1;
 		}
@@ -130,8 +127,9 @@ function convertToPost($event)
 
     $new_post = array(
         'post_title'        =>      $event["name"],
-    	'post_content'      =>      $event["description"],
-		'post_category' => 		$transformed_categories,
+      	'post_content'      =>      $event["description"],
+    		'post_category' => 		$transformed_categories,
+        'post_status'    => 'publish',
         'post_price'        =>     $combined_prices,
         'post_location'     =>     $event["locality"]["levelThree"],
         'post_latitude'     =>     $event["venue"]["latitude"],
@@ -222,5 +220,4 @@ function quicket_widget_function() {
 			});
 		});
 	</script>";
-
 }

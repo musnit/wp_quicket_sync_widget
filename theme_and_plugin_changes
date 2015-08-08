@@ -44,3 +44,31 @@ New:
 								$full_img_url = wp_get_attachment_url($attachment->ID);
 								echo "<a href='" . bfi_thumb( "$full_img_url", $params ) . "'><img alt='image' src='" . bfi_thumb( $full_img_url, $params_small ) . "' data-big='" . $full_img_url . "' ></a>";
 							}
+
+
+Theme changes:
+Homepage V1 Page Template (template-homepage-v1.php)
+Homepage V2 (with Shop) Page Template (template-homepage-v2.php)
+Category Template (category.php)
+Locations Page Template (template-locations.php)
+template-all-categories.php
+Search Results (search.php)
+
+Multiple occurences:
+
+Old:
+
+								if ( has_post_thumbnail()) {
+								   $large_image_url = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'large');
+								   echo '<a class="ad-image" href="' . $large_image_url[0] . '" title="' . the_title_attribute('echo=0') . '" >';
+								   echo get_the_post_thumbnail($post->ID, '291x250'); 
+								   echo '</a>';
+								 }
+New, added below:
+
+								if(get_post_meta($post->ID, 'quicket_thumbnail_url', true) ){
+								   $large_image_url = get_post_meta($post->ID, 'quicket_thumbnail_url', true);
+								   echo '<a class="ad-image" href="' . $large_image_url[0] . '" title="' . the_title_attribute('echo=0') . '" >';
+								   echo "<img src='" . $large_image_url . "' class='attachment-291x250 wp-post-image' alt='External website ad_v3' height='250' width='291'>";
+								   echo '</a>';
+								}
