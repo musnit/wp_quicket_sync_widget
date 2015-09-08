@@ -121,7 +121,7 @@ function convertToPost($event)
 
     $date_tag = date('d-m-Y', strtotime($event["startDate"]));
     $end_date = date('d-m-Y', strtotime($event["endDate"]));
-    $expiry = strtotime("+7 day", strtotime($event["endDate"]));
+    $expiry = strtotime("+1 day", strtotime($event["endDate"]));
 
     $transformed_categories = array_unique(flattenArray(array_map('convertCategory', $event["categories"])));
     $lat = $event["venue"]["latitude"];
